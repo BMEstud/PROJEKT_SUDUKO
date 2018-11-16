@@ -33,12 +33,11 @@ public class GRID {
 			tilePane.getChildren().addAll(tf);
 			tf.setFont(Font.font("Verdana", FontWeight.NORMAL, 20));
 			count++;
-
+			
 			tilePane.setPadding(new Insets(1, 1, 1, 1));
 			tilePane.setHgap(2);
 			tilePane.setVgap(2);
 		
-
 			int s = board[r][c];
 			String str = Integer.toString(s);
 			tf.setText(str);
@@ -116,6 +115,7 @@ public class GRID {
 
 		return tf;
 	}
+	 
 	
 
 }

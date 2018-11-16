@@ -37,7 +37,7 @@ public class Lösaren2 {
 
 	}
 
-	// we check if a possible number is already in a row
+	//Vi tittar om ett nummer redan finns i en rad
 	private boolean isInRow(int row, int number) {
 		for (int i = 0; i < SIZE; i++)
 			if (board[row][i] == number)
@@ -46,7 +46,7 @@ public class Lösaren2 {
 		return false;
 	}
 
-	// we check if a possible number is already in a column
+	//Vi tittar om det finns ett nummer redan i en kolumn
 	private boolean isInCol(int col, int number) {
 		for (int i = 0; i < SIZE; i++)
 			if (board[i][col] == number)
@@ -55,7 +55,7 @@ public class Lösaren2 {
 		return false;
 	}
 
-	// we check if a possible number is in its 3x3 box
+	// Vi tittar om det finns ett nummer i boxen (det rosa)
 	private boolean isInBox(int row, int col, int number) {
 		int r = row - row % 3;
 		int c = col - col % 3;
@@ -78,7 +78,8 @@ public class Lösaren2 {
 	public boolean solve() {
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
-				// we search an empty cell
+				//. Aktuell ruta är inte från början fylld (av användaren). Då provar man i tur och ordning
+				// att fylla den med något av talen 1..9
 				if (board[row][col] == EMPTY) {
 					// we try possible numbers
 					for (int number = 1; number <= SIZE; number++) {
