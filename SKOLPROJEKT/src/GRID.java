@@ -1,36 +1,45 @@
 
 import java.util.Random;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class GRID {
 
-	private TextField tf;
-	private int[][] board = new int[9][9];
+	public TextField tf;
 	final int SIZE = 50;
 	private int count = 0;
 	private int r = 0;
 	private int c = 0;
-	int[][] GRID_TO_SOLVE = { { 9, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
-			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 2, 6, 0, 0, 9 }, { 2, 0, 0, 3, 0, 0, 0, 0, 6 }, { 0, 0, 0, 2, 0, 0, 9, 0, 0 },
-			{ 0, 0, 1, 9, 0, 4, 5, 7, 0 }, };
+	public int[][] board;
+	public TilePane tilePane;
 
 	public GRID(int[][] board) {
 
+		this.board = board;
+		tilePane = new TilePane();
+
 		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
 		for (int i = 0; i < board.length * board.length; i++) { // lägger till en ruta, totalt 81 st, 9*9
-			TilePane tilePane = new TilePane();
+		
 			tf = new TextField();
 			tf.setPrefSize(SIZE, SIZE);
 			tilePane.getChildren().addAll(tf);
 			tf.setFont(Font.font("Verdana", FontWeight.NORMAL, 20));
 			count++;
 
-			int s = GRID_TO_SOLVE[r][c];
+			tilePane.setPadding(new Insets(1, 1, 1, 1));
+			tilePane.setHgap(2);
+			tilePane.setVgap(2);
+		
+
+			int s = board[r][c];
 			String str = Integer.toString(s);
 			tf.setText(str);
 
@@ -77,7 +86,7 @@ public class GRID {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
 
-			//---------------------------------------------------
+			// ---------------------------------------------------
 
 			if (count > 54 && i < 57) {
 				tf.setStyle("-fx-background-color:  pink;");
@@ -94,8 +103,19 @@ public class GRID {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
 
-
 		}
 
 	}
+
+	public TilePane getTilePane() {
+
+		return tilePane;
+	}
+
+	public TextField getTextField() {
+
+		return tf;
+	}
+	
+
 }
