@@ -2,7 +2,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class Lösaren {
+public class Lösaren2 {
 
 	// we define a simple grid to solve. Grid is stored in a 2D Array
 	public static int[][] GRID_TO_SOLVE = { { 9, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
@@ -15,7 +15,7 @@ public class Lösaren {
 	public static final int SIZE = 9; // size of our Sudoku grids
 	
 
-	public Lösaren(int[][] board) {
+	public Lösaren2(int[][] board) {
 		this.board = new int[SIZE][SIZE];
 
 		for (int i = 0; i < SIZE; i++) {
@@ -104,22 +104,13 @@ public class Lösaren {
 
 	public void display() {
 		
-//		int SolvedBoard[][] = new int[SIZE][SIZE];
+
 		
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				
-				System.out.print(" " + board[i][j]);
-			}
-
-			System.out.println();
-		}
-
-		System.out.println();
+		
 	}
 
 	public static void main(String[] args) {
-		Lösaren sudoku = new Lösaren(GRID_TO_SOLVE);
+		Lösaren2 sudoku = new Lösaren2(GRID_TO_SOLVE);
 		System.out.println("Sudoku grid to solve");
 		sudoku.display();
 

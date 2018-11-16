@@ -23,8 +23,6 @@ public class SudoKu3 extends Application {
 	private int r = 0;
 	private int c = 0;
 	private Lösaren solver;
-	private BorderPane borderPane;
-	private TilePane tilePane;
 
 	int[][] GRID_TO_SOLVE = { { 9, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
 			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
@@ -35,7 +33,8 @@ public class SudoKu3 extends Application {
 	public void start(Stage stage) throws Exception {
 
 		// Behållarkomponenter, BorderPane är själva "grunden"
-		
+		BorderPane borderPane = new BorderPane();
+		TilePane tilePane = new TilePane();
 		HBox hb = new HBox();
 
 		
@@ -48,57 +47,11 @@ public class SudoKu3 extends Application {
 		hb.setSpacing(20);
 		hb.getChildren().addAll(clear, solve);
 
-		paint();
+		tilePane.setPadding(new Insets(1, 1, 1, 1));
+		tilePane.setHgap(2);
+		tilePane.setVgap(2);
+
 		
-
-		// lägger till tilepane i borderpane, centrerat
-
-		// Lägger till knapparna längst ner i fönstret
-		borderPane.setBottom(hb);
-		
-		
-			
-		
-		
-		
-		//----------------------HANTERA KNAPPARNA----------------
-
-		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
-
-		solve.setOnAction(event -> {
-
-			//KALLA PÅ METODEN SOLVE I LÖSAR-KLASSEN
-			solver.solve();
-			solver.display();
-			
-
-		});
-
-		clear.setOnAction(event -> {
-
-			// KALLA PÅ METODEN CLEAR I LÖSAR-KLASSEN
-
-		});
-		
-		//----------------------------------------------------
-
-		Scene scene = new Scene(borderPane, (SIZE * NBR_COL + 10), SIZE * NBR_ROW + 50);
-		stage.setTitle("Suduko");
-		stage.setScene(scene); // f�r att koppla scen-objektet till scengolvet (stage)
-		
-		
-		
-
-		// För att visa allt
-		stage.show();
-
-	}
-	
-	
-	public void paint() {
-		
-		 tilePane = new TilePane();
-		borderPane.setLeft(tilePane);
 		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
 		for (int i = 0; i < NBR_COL * NBR_ROW; i++) { // lägger till en ruta, totalt 81 st, 9*9
 
@@ -186,11 +139,62 @@ public class SudoKu3 extends Application {
 		}
 		
 
-		tilePane.setPadding(new Insets(1, 1, 1, 1));
-		tilePane.setHgap(2);
-		tilePane.setVgap(2);
+		// lägger till tilepane i borderpane, centrerat
+		borderPane.setLeft(tilePane);
+
+		// Lägger till knapparna längst ner i fönstret
+		borderPane.setBottom(hb);
 		
-		}
+		
+			
+		
+		
+		
+		//----------------------HANTERA KNAPPARNA----------------
+
+		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
+
+		solve.setOnAction(event -> {
+			
+			for (int i = 0; i < NBR_COL * NBR_ROW; i++) {
+				
+				
+			
+			}
+
+			//KALLA PÅ METODEN SOLVE I LÖSAR-KLASSEN
+			solver.solve();
+			
+			solver.display();
+			
+//			I den lyssnaren som kopplas till knappen ”Solve” ser man till att läsa av alla textfälten och
+//			föra över motsvarande värden till modellen. Därefter anropas modellens solve-metod. Om
+//			denna returnerar true hämtar man alla rutornas värden från modellen och visar dessa i
+//			motsvarande textfält. Annars visas ett dialogfönster där det anges att ingen lösning finns.
+//			Lyssnaren kopplad till knappen ”Clear” tömmer textfälten i vyn.
+			
+
+		});
+
+		clear.setOnAction(event -> {
+
+			// KALLA PÅ METODEN CLEAR I LÖSAR-KLASSEN
+
+		});
+		
+		//----------------------------------------------------
+
+		Scene scene = new Scene(borderPane, (SIZE * NBR_COL + 10), SIZE * NBR_ROW + 50);
+		stage.setTitle("Suduko");
+		stage.setScene(scene); // f�r att koppla scen-objektet till scengolvet (stage)
+		
+		
+		
+
+		// För att visa allt
+		stage.show();
+
+	}
 
 	public static void main(String[] args) {
 		// Mainmetoden anv�nds endast f�r att starta javaFX, d�refter har javaFX

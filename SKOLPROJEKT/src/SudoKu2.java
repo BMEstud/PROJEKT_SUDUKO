@@ -155,10 +155,23 @@ public class SudoKu2 extends Application {
 		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
 
 		solve.setOnAction(event -> {
+			
+			for (int i = 0; i < NBR_COL * NBR_ROW; i++) {
+				
+				
+			
+			}
 
 			//KALLA PÅ METODEN SOLVE I LÖSAR-KLASSEN
 			solver.solve();
+			
 			solver.display();
+			
+//			I den lyssnaren som kopplas till knappen ”Solve” ser man till att läsa av alla textfälten och
+//			föra över motsvarande värden till modellen. Därefter anropas modellens solve-metod. Om
+//			denna returnerar true hämtar man alla rutornas värden från modellen och visar dessa i
+//			motsvarande textfält. Annars visas ett dialogfönster där det anges att ingen lösning finns.
+//			Lyssnaren kopplad till knappen ”Clear” tömmer textfälten i vyn.
 			
 
 		});

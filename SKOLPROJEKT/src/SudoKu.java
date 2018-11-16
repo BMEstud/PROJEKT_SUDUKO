@@ -20,9 +20,6 @@ public class SudoKu extends Application {
 	private int count = 0;
 
 	
-
-	
-	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
