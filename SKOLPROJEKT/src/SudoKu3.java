@@ -1,19 +1,11 @@
 
-import java.util.ArrayList;
 //huiwdbjwbdkjwbdkwbdkwjd
 
 import javafx.application.Application;
-
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SudoKu3 extends Application {
@@ -25,14 +17,12 @@ public class SudoKu3 extends Application {
 	private GRID grid;
 
 
-
 	int[][] GRID_TO_SOLVE = { { 7, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
 			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 2, 6, 0, 0, 9 }, { 2, 0, 0, 3, 0, 0, 0, 0, 6 }, { 0, 0, 0, 2, 0, 0, 9, 0, 0 },
 			{ 0, 0, 1, 9, 0, 4, 5, 7, 0 }, };
 
 	// KOMMENTAR
-	//
 	// JAG HAR ÄNDRAT SÅ JAG HAR DELAT UPP DET I OLIKA KLASSER. GRID-KLASSEN SKÖTER
 	// OM SJÄLVA SPELPLANEN (MALLEN),
 	// MEDAN DENNA KLASSEN (SudoKU3) är det grafiska
@@ -82,10 +72,38 @@ public class SudoKu3 extends Application {
 			
 			//brädet ska "läsas av" och föras över till modellen, dvs lösaren.
 			
-			Lösaren2 lösaren2 = new Lösaren2(GRID_TO_SOLVE);
 			
-			lösaren2.solve();
-			System.out.print(lösaren2.getBoard());
+			
+			
+      		   for(int i = 0; i < GRID_TO_SOLVE.length*GRID_TO_SOLVE.length; i++) {
+				
+				
+				System.out.println(grid.getBoard());
+				
+				
+				//Vi måste ha metoder för att hämta/ och sätta in nummer i rutor.
+				
+				
+				
+				
+				
+				
+				
+			
+      		   }
+			
+			
+			
+			
+			
+			
+			
+			
+			
+//			Lösaren2 lösaren2 = new Lösaren2(GRID_TO_SOLVE);
+//			
+//			lösaren2.solve();
+//			System.out.print(lösaren2.getBoard());
 			
 			
 			

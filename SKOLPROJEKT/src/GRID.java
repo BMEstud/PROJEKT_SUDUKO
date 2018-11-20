@@ -64,6 +64,11 @@ public class GRID {
 				tf.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 				tf.setEditable(false);
 			}
+			
+			if ( count < 4) {
+				tf.setStyle("-fx-background-color:  pink;");
+			}
+			
 			if (count > 6 && count < 13) {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
@@ -129,6 +134,21 @@ public class GRID {
 		
 		return board;
 	}
+	
+
+//	public int FåNummer() {
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//	}
+	
+	
+	
+	
 	
 	
 //	//Hämta nummer ur en ruta
