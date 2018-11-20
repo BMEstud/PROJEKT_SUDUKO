@@ -1,9 +1,12 @@
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -19,7 +22,8 @@ public class SudoKu3 extends Application {
 	private int NBR_ROW = 9;
 	final int SIZE = 50; // bestämmer rutstorleken, kan bara göras en gång.. Ty Final
 	private GRID grid;
-	private Lösaren2 lösaren2;
+
+
 
 	int[][] GRID_TO_SOLVE = { { 7, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
 			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
@@ -51,6 +55,8 @@ public class SudoKu3 extends Application {
 		borderPane.setBottom(hb);
 
 		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
+		
+		
 
 //			}
 
@@ -64,13 +70,44 @@ public class SudoKu3 extends Application {
 //			denna returnerar true hämtar man alla rutornas värden från modellen och visar dessa i
 //			motsvarande textfält. Annars visas ett dialogfönster där det anges att ingen lösning finns.
 //			Lyssnaren kopplad till knappen ”Clear” tömmer textfälten i vyn.
+		
+	
 
 //		});
 //
 		solve.setOnAction(event -> {
 
 			// KALLA PÅ METODEN CLEAR I LÖSAR-KLASSEN
+			
+			//brädet ska "läsas av" och föras över till modellen, dvs lösaren.
+			
+			Lösaren2 lösaren2 = new Lösaren2(GRID_TO_SOLVE);
+			
 			lösaren2.solve();
+			System.out.print(lösaren2.getBoard());
+			
+			
+			
+			//loopa igenom hela brädet
+			 
+//			for(int i = 0; i<GRID_TO_SOLVE.length; i++) {
+//				for(int j = 0; j<GRID_TO_SOLVE.length; j++) {
+//				
+//	
+//					String s = grid.getTextField();
+//					
+//					array.add(s);
+//				
+//				} 
+//	
+//			}
+//			
+
+			
+			
+			
+			
+		
 
 		});
 

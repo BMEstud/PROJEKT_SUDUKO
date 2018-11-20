@@ -10,9 +10,11 @@ public class Lösaren2 {
 			{ 0, 0, 0, 0, 2, 6, 0, 0, 9 }, { 2, 0, 0, 3, 0, 0, 0, 0, 6 }, { 0, 0, 0, 2, 0, 0, 9, 0, 0 },
 			{ 0, 0, 1, 9, 0, 4, 5, 7, 0 }, };
 
-	private int[][] board;
+	public int[][] board;
 	public static final int EMPTY = 0; // empty cell
 	public static final int SIZE = 9; // size of our Sudoku grids
+	public GRID g;
+
 	
 
 	public Lösaren2(int[][] board) {
@@ -73,7 +75,7 @@ public class Lösaren2 {
 		return !isInRow(row, number) && !isInCol(col, number) && !isInBox(row, col, number);
 	}
 
-	// Solve method. use a recursive BackTracking algorithm.
+	// Solver-metod, Backtracking
 
 	public boolean solve() {
 		for (int row = 0; row < SIZE; row++) {
@@ -103,11 +105,17 @@ public class Lösaren2 {
 		return true; // sudoku solved
 	}
 
-	public void display() {
+	public GRID display() {
 		
+		 g = new GRID(GRID_TO_SOLVE);
+		
+		
+		return g;
 
-		
-		
+	}
+	
+	public int[][] getBoard() {
+		return board;
 	}
 
 	public static void main(String[] args) {

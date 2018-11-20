@@ -1,11 +1,10 @@
 
-import java.util.Random;
-
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -19,6 +18,10 @@ public class GRID {
 	private int c = 0;
 	public int[][] board;
 	public TilePane tilePane;
+	public int NBR_ROW = 9;
+	public int NBR_COL = 9;
+	public Object getTextField;
+	
 
 	public GRID(int[][] board) {
 
@@ -26,7 +29,7 @@ public class GRID {
 		tilePane = new TilePane();
 
 		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
-		for (int i = 0; i < board.length * board.length; i++) { // lägger till en ruta, totalt 81 st, 9*9
+		for (int i = 0; i < NBR_COL * NBR_ROW; i++) { // lägger till en ruta, totalt 81 st, 9*9
 		
 			tf = new TextField();
 			tf.setPrefSize(SIZE, SIZE);
@@ -41,6 +44,7 @@ public class GRID {
 			int s = board[r][c];
 			String str = Integer.toString(s);
 			tf.setText(str);
+		
 
 			if (s == 0) {
 				tf.setText("");
@@ -103,6 +107,11 @@ public class GRID {
 			}
 
 		}
+		
+	
+		
+		
+		
 
 	}
 
@@ -111,11 +120,41 @@ public class GRID {
 		return tilePane;
 	}
 
-	public TextField getTextField() {
+	public String getTextField() {
 
-		return tf;
+		return tf.getText();
 	}
+	
+	public int[][] getBoard() {
+		
+		return board;
+	}
+	
+	
+//	//Hämta nummer ur en ruta
+//	public int getNumber(int row, int col) {
+//		for(int i = 0; i < NBR_ROW; i++ ) {
+//			for(int j = 0; j < NBR_COL; j++ ) {
+//				
+//				if()
+//				
+//				
+//				
+//				
+//				
+//			}
+//			
+//		}
+//		
+		
+	//	return row;
+		
+		
+		
+	}
+
+
 	 
 	
 
-}
+
