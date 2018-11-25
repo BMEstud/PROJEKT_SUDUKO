@@ -1,22 +1,18 @@
 
 import java.util.Map;
+
 import java.util.TreeMap;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-//hej
 public class GRID {
 
 	public TextField tf;
@@ -29,10 +25,9 @@ public class GRID {
 	public static final int EMPTY = 0;
 	private int[][] GRID_TO_SOLVE;
 	public Map<String, String> map;
-	
 
 	public GRID(int[][] GRID_TO_SOLVE) {
-		
+
 		this.map = new TreeMap<String, String>();
 
 		this.GRID_TO_SOLVE = GRID_TO_SOLVE;
@@ -47,13 +42,13 @@ public class GRID {
 		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
 		for (int i = 0; i < NBR_COL * NBR_ROW; i++) { // lägger till en ruta, totalt 81 st, 9*9
 
-			this.tf = new TextField();
+			TextField tf = new TextField();
 			tf.setPrefSize(SIZE, SIZE);
 			tilePane.getChildren().addAll(tf);
 			tf.setFont(Font.font("Verdana", FontWeight.NORMAL, 20));
 
 			count++;
-			
+
 			tilePane.setPadding(new Insets(1, 1, 1, 1));
 			tilePane.setHgap(2);
 			tilePane.setVgap(2);
@@ -134,16 +129,8 @@ public class GRID {
 					tf.setOnKeyReleased(event -> {
 						if (event.getCode() == KeyCode.ENTER) {
 
-							System.out.print(tf.getId());
-							System.out.print("   " + tf.getText());
+							// GRID_TO_SOLVE[]
 
-							// 0-80 Nbr
-							// map.get(key)(value)
-
-							// fill a hasmap, where the "key" is the id and the "value" is the inputed value
-							// The map is sorted from 0 to 80, where the values are the inputed number
-							map.put(tf.getId(), tf.getText());
-							
 						}
 					});
 
@@ -152,10 +139,24 @@ public class GRID {
 			});
 
 		}
-		
-		
 
 	}
+
+	public int[][] readValues() {
+
+		for (int row = 0; row < NBR_ROW; row++) {
+			for (int col = 0; col < NBR_COL; col++) {
+
+				GRID_TO_SOLVE[row][col] = Integer.parseInt(tf.getText());
+
+			}
+		}
+		
+		return GRID_TO_SOLVE;
+
+	}
+
+	
 
 	public BorderPane getBorderPane() {
 		return this.borderPane;
@@ -165,13 +166,24 @@ public class GRID {
 		return this.tilePane;
 	}
 
-	public TextField getTextField() {
-		return this.tf;
+	public Map<String, String> getMap() {
+		return map;
 	}
-	
-	public int[][] getBoard(){
-		
+
+	public int[][] getBoard() {
+
 		return GRID_TO_SOLVE;
+	}
+
+	private int getNbr(int i, int j) {
+
+		return GRID_TO_SOLVE[i][j];
+
+	}
+
+	private void setNbr(int i, int j, int nbr) {
+
+		GRID_TO_SOLVE[i][j] = nbr;
 	}
 
 //Check if a number is in the given row 
@@ -211,21 +223,32 @@ public class GRID {
 	}
 
 	// Solver-metod, Backtracking
-
-	public boolean solve() {
+	public boolean solve(int i, int j) {
 		for (int row = 0; row < NBR_ROW; row++) {
 			for (int col = 0; col < NBR_COL; col++) {
-				// . Aktuell ruta är inte från början fylld (av användaren). Då provar man i tur
-				// och ordning
-				// att fylla den med något av talen 1..9
+
+//				if (GRID_TO_SOLVE[row][col] != EMPTY) {
+//
+//					// if this number is ok
+//					if (isOk(i, j, getNbr(i, j))) {
+//						GRID_TO_SOLVE[row][col] = getNbr(i, j);
+//						solve(i + 1, j + 1);
+//
+//					} else {
+//						return false;
+//					}
+//
+//				}
+
+				// There is no number in the cell
 				if (GRID_TO_SOLVE[row][col] == EMPTY) {
 					// we try possible numbers
 					for (int number = 1; number <= 9; number++) {
 						if (isOk(row, col, number)) {
-							// number ok. it respects sudoku constraints
+							// number ok. it respects sudoku constraints, we fill the cell with a number
 							GRID_TO_SOLVE[row][col] = number;
 
-							if (solve()) { // we start backtracking recursively
+							if (solve(i, j)) { // we start backtracking recursively
 								return true;
 							} else { // if not a solution, we empty the cell and we continue
 								GRID_TO_SOLVE[row][col] = EMPTY;
@@ -234,6 +257,8 @@ public class GRID {
 					}
 
 					return false; // we return false
+
+					// if there is a number in the cell
 				}
 
 			}
@@ -247,3 +272,8 @@ public class GRID {
 	}
 
 }
+
+
+
+
+

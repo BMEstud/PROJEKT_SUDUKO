@@ -1,25 +1,14 @@
 
 //huiwdbjwbdkjwbdkwbdkwjd
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SudoKu3 extends Application {
@@ -28,10 +17,6 @@ public class SudoKu3 extends Application {
 	private int NBR_COL = 9;
 	private int NBR_ROW = 9;
 	final int SIZE = 50; // bestämmer rutstorleken, kan bara göras en gång.. Ty Final
-	private int count = 0;
-	private int ROW;
-	private int COL;
-	private Map<String, String> map;
 	public TextField tf;
 	public BorderPane borderPane;
 	public TilePane tilePane;
@@ -58,20 +43,59 @@ public class SudoKu3 extends Application {
 		
 		
 		solve.setOnAction(event -> {
-		
-				grid.solve();
-				
-				GRID grid2 = new GRID(grid.getBoard());
+			
+			
+//			I den lyssnaren som kopplas till knappen ”Solve” ser man till att läsa av alla textfälten och
+//			föra över motsvarande värden till modellen. Därefter anropas modellens solve-metod. Om
+//			denna returnerar true hämtar man alla rutornas värden från modellen och visar dessa i
+//			motsvarande textfält. Annars visas ett dialogfönster där det anges att ingen lösning finns.
+
+			int row = 0;
+			int col = 0;
+			
+			
+			//the text Fields are read off and transfered to the model (i.e GRID_TO_SOLVE)
+			for( Node node: grid.getTilePane().getChildren()) {
+
+			    	if(((TextField) node).getText().equals("")){
+			    		
+			    		
+			    		//the cells that contains no number are set to 0
+			    		((TextField) node).setText("0");
+			    	}
+			        System.out.println(((TextField) node).getText());
+			        
+			        
+			        GRID_TO_SOLVE[row][col] = Integer.parseInt(((TextField) node).getText());
+			    
+			        col++;
+
+			        if(col == 9) {
+			        	col =0;
+			        	row++;
+			        }
+			       
+
+			}
+			
+			
+			
+			
+			grid.solve(0,0);
+			
+			
+//				
+				GRID grid2 = new GRID(GRID_TO_SOLVE);
 				grid2.getBorderPane().setCenter(grid2.getTilePane());
 				grid2.getBorderPane().setBottom(hb);
 				
 				Scene scene = new Scene(grid2.getBorderPane(), (50 * NBR_COL + 20), SIZE * NBR_ROW + 64);
 				stage.setTitle("Suduko");
 				stage.setScene(scene); // f�r att koppla scen-objektet till scengolvet (stage)
-				stage.setResizable(false);// för att inte kunna ändra storlek på brädet
-
-				// För att visa allt
-				stage.show();
+			stage.setResizable(false);// för att inte kunna ändra storlek på brädet
+//
+//				 För att visa allt
+			stage.show();
 				
 				
 	});
