@@ -1,4 +1,7 @@
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -12,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
 //hej
 public class GRID {
 
@@ -24,37 +28,39 @@ public class GRID {
 	final int NBR_COL = 9;
 	public static final int EMPTY = 0;
 	private int[][] GRID_TO_SOLVE;
+	public Map<String, String> map;
 	
 
 	public GRID(int[][] GRID_TO_SOLVE) {
 		
+		this.map = new TreeMap<String, String>();
+
 		this.GRID_TO_SOLVE = GRID_TO_SOLVE;
-		
+
 		// Behållarkomponenter, BorderPane är själva "grunden"
 		this.borderPane = new BorderPane();
 		this.tilePane = new TilePane();
 
-        int c = 0;
-        int r = 0;
+		int c = 0;
+		int r = 0;
 
 		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
 		for (int i = 0; i < NBR_COL * NBR_ROW; i++) { // lägger till en ruta, totalt 81 st, 9*9
-		
-		    this.tf = new TextField();
+
+			this.tf = new TextField();
 			tf.setPrefSize(SIZE, SIZE);
 			tilePane.getChildren().addAll(tf);
 			tf.setFont(Font.font("Verdana", FontWeight.NORMAL, 20));
-		
+
 			count++;
 			
-		
-			
+			tilePane.setPadding(new Insets(1, 1, 1, 1));
+			tilePane.setHgap(2);
+			tilePane.setVgap(2);
 
-		
 			int s = GRID_TO_SOLVE[r][c];
 			String str = Integer.toString(s);
 			tf.setText(str);
-		
 
 			if (s == 0) {
 				tf.setText("");
@@ -74,11 +80,11 @@ public class GRID {
 				tf.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 				tf.setEditable(false);
 			}
-			
-			if ( count < 4) {
+
+			if (count < 4) {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
-			
+
 			if (count > 6 && count < 13) {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
@@ -121,53 +127,65 @@ public class GRID {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
 			borderPane.setCenter(tilePane);
-			
-//			//till varje textfield kopplas en mouseevent-handler
-//			tf.setOnMousePressed(new EventHandler<MouseEvent>() {
-//			      public void handle(MouseEvent me) {
-//			   
-//			    	  
-//			    	  if(!tf.getText().equals("")) {
-//			    		  System.out.println("Tom rut");
-//			    	  }else {
-//			    		  System.out.println("Ingen tom ruta");
-//			    	  }
-//			    	  
-//			        }
-//			      });
+
+			tf.setOnMousePressed(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent me) {
+
+					tf.setOnKeyReleased(event -> {
+						if (event.getCode() == KeyCode.ENTER) {
+
+							System.out.print(tf.getId());
+							System.out.print("   " + tf.getText());
+
+							// 0-80 Nbr
+							// map.get(key)(value)
+
+							// fill a hasmap, where the "key" is the id and the "value" is the inputed value
+							// The map is sorted from 0 to 80, where the values are the inputed number
+							map.put(tf.getId(), tf.getText());
+							
+						}
+					});
+
+				}
+
+			});
 
 		}
 		
+		
 
 	}
-public BorderPane getBorderPane() {
-	return this.borderPane;
-}
 
-public TilePane getTilePane() {
-	return this.tilePane;
-}
+	public BorderPane getBorderPane() {
+		return this.borderPane;
+	}
 
-public TextField getTextField() {
-	return this.tf;
-}
+	public TilePane getTilePane() {
+		return this.tilePane;
+	}
+
+	public TextField getTextField() {
+		return this.tf;
+	}
 	
-	
+	public int[][] getBoard(){
+		
+		return GRID_TO_SOLVE;
+	}
 
-	
-
-	//Vi tittar om ett nummer redan finns i en rad
+//Check if a number is in the given row 
 	private boolean isInRow(int row, int number) {
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < NBR_ROW; i++)
 			if (GRID_TO_SOLVE[row][i] == number)
 				return true;
 
 		return false;
 	}
 
-	//Vi tittar om det finns ett nummer redan i en kolumn
+	// Check if the number is in the given column
 	private boolean isInCol(int col, int number) {
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < NBR_COL; i++)
 			if (GRID_TO_SOLVE[i][col] == number)
 				return true;
 
@@ -195,13 +213,14 @@ public TextField getTextField() {
 	// Solver-metod, Backtracking
 
 	public boolean solve() {
-		for (int row = 0; row < SIZE; row++) {
-			for (int col = 0; col < SIZE; col++) {
-				//. Aktuell ruta är inte från början fylld (av användaren). Då provar man i tur och ordning
+		for (int row = 0; row < NBR_ROW; row++) {
+			for (int col = 0; col < NBR_COL; col++) {
+				// . Aktuell ruta är inte från början fylld (av användaren). Då provar man i tur
+				// och ordning
 				// att fylla den med något av talen 1..9
 				if (GRID_TO_SOLVE[row][col] == EMPTY) {
 					// we try possible numbers
-					for (int number = 1; number <= SIZE; number++) {
+					for (int number = 1; number <= 9; number++) {
 						if (isOk(row, col, number)) {
 							// number ok. it respects sudoku constraints
 							GRID_TO_SOLVE[row][col] = number;
@@ -216,33 +235,15 @@ public TextField getTextField() {
 
 					return false; // we return false
 				}
+
 			}
 		}
 
 		return true; // sudoku solved
 	}
 
-
-
 	public static void main(String[] args) {
 
-
-		// we try resolution
-//		if (sudoku.solve()) {
-//			System.out.println("Sudoku Grid solved with simple BT");
-//			sudoku.display();
-//		} else {
-//			System.out.println("Unsolvable");
-//		}
 	}
 
-
-		
-		
-	}
-
-
-	 
-	
-
-
+}
