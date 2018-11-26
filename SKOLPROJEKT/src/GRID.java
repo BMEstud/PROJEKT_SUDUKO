@@ -123,40 +123,10 @@ public class GRID {
 			}
 			borderPane.setCenter(tilePane);
 
-			tf.setOnMousePressed(new EventHandler<MouseEvent>() {
-				public void handle(MouseEvent me) {
-
-					tf.setOnKeyReleased(event -> {
-						if (event.getCode() == KeyCode.ENTER) {
-
-							// GRID_TO_SOLVE[]
-
-						}
-					});
-
-				}
-
-			});
-
 		}
 
 	}
 
-	public int[][] readValues() {
-
-		for (int row = 0; row < NBR_ROW; row++) {
-			for (int col = 0; col < NBR_COL; col++) {
-
-				GRID_TO_SOLVE[row][col] = Integer.parseInt(tf.getText());
-
-			}
-		}
-		
-		return GRID_TO_SOLVE;
-
-	}
-
-	
 
 	public BorderPane getBorderPane() {
 		return this.borderPane;
@@ -272,8 +242,3 @@ public class GRID {
 	}
 
 }
-
-
-
-
-
