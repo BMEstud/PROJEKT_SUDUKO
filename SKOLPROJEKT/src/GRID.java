@@ -1,14 +1,7 @@
 
-import java.util.Map;
-
-
-import java.util.TreeMap;
-
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
@@ -16,9 +9,9 @@ import javafx.scene.text.FontWeight;
 
 public class GRID {
 
-	public TextField tf;
-	public BorderPane borderPane;
-	public TilePane tilePane;
+	private TextField tf;
+	private BorderPane borderPane;
+	private TilePane tilePane;
 	final int SIZE = 50;
 	private int count = 0;
 	final int NBR_ROW = 9;
@@ -65,8 +58,7 @@ public class GRID {
 				c = 0;
 				r++;
 			}
-
-			// Tittar, ifall rutan är tom, så ska det gå att skriva, annars ej
+			
 			if (!tf.getText().equals("")) {
 
 				// Formatera texten, siffrorna från början ska vara stora och svarta
@@ -135,6 +127,63 @@ public class GRID {
 	public int[][] getBoard() {
 
 		return this.GRID_TO_SOLVE;
+	}
+
+	public void clearBoard(int[][] GRID_TO_SOLVE) {
+
+		this.GRID_TO_SOLVE = GRID_TO_SOLVE;
+
+		for (int row = 0; row < NBR_ROW; row++) {
+			for (int col = 0; col < NBR_COL; col++) {
+
+				GRID_TO_SOLVE[row][col] = 0;
+
+			}
+		}
+
+	}
+
+	public void readBoard(TilePane tilePane) {
+		
+
+		int row = 0;
+		int col = 0;
+
+		for (Node node : getTilePane().getChildren()) {
+
+			if (((TextField) node).getText().equals("")) {
+
+				// the cells that contains no number are set to 0
+				((TextField) node).setText("0");
+			}
+
+			this.GRID_TO_SOLVE[row][col] = Integer.parseInt(((TextField) node).getText());
+
+			col++;
+
+			if (col == 9) {
+				col = 0;
+				row++;
+			}
+
+		}
+
+	}
+
+	public void resetBoard() {
+		
+
+		for (Node node : getTilePane().getChildren()) {
+
+			if (((TextField) node).getText().equals("0")) {
+
+				// the cells that contains no number are set to 0
+				((TextField) node).setText("");
+
+			}
+
+		}
+
 	}
 
 //

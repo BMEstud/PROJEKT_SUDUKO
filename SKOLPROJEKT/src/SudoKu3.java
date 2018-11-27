@@ -2,8 +2,6 @@
 //huiwdbjwbdkjwbdkwbdkwjd
 
 import javafx.application.Application;
-
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,14 +24,15 @@ public class SudoKu3 extends Application {
 	private GRID grid;
 	private Stage stage;
 
-	int[][] EMPTY_GRID = { { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
-	
-	int[][] GRID_TO_SOLVE = { { 7, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
+	private int[][] GRID_TO_SOLVE = { { 7, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
 			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 2, 6, 0, 0, 9 }, { 2, 0, 0, 3, 0, 0, 0, 0, 6 }, { 0, 0, 0, 2, 0, 0, 9, 0, 0 },
 			{ 0, 0, 1, 9, 0, 4, 5, 7, 0 }, };
+	
+	private int[][] EMPTY_GRID = { { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -53,37 +52,13 @@ public class SudoKu3 extends Application {
 
 		solve.setOnAction(event -> {
 
-			int row = 0;
-			int col = 0;
-
-			// the text Fields are read off and transfered to the model (i.e GRID_TO_SOLVE),
-			// 81 textfields are read off
-			for (Node node : grid.getTilePane().getChildren()) {
-
-				if (((TextField) node).getText().equals("")) {
-
-					// the cells that contains no number are set to 0
-					((TextField) node).setText("0");
-				}
-
-				// every textfield are being read off and put into the matrix model
-				// Integer.parseInt(((TextField) node).getText()); gives every number the user
-				// has entered
-				GRID_TO_SOLVE[row][col] = Integer.parseInt(((TextField) node).getText());
-
-				col++;
-
-				if (col == 9) {
-					col = 0;
-					row++;
-				}
-
-			}
+			grid.readBoard(grid.getTilePane());
+			grid.resetBoard();
 
 			// we call the GRID-class with the new matrix, the matrix now corresponds to
 			// what values the user has entered
 			// in the textfields
-			grid = new GRID(GRID_TO_SOLVE);
+			// grid = new GRID(GRID_TO_SOLVE);
 
 			// When we use the solve method,the matrix EMPTY_GRID will change..
 			if (grid.solve(0, 0) == false) {
@@ -93,8 +68,8 @@ public class SudoKu3 extends Application {
 				alert.setHeaderText(null);
 				alert.setContentText("Det saknas lösning");
 				alert.showAndWait();
-
-				return;
+				grid = new GRID(grid.getBoard());
+				setStage2(grid.getBorderPane()).show();
 
 			}
 
@@ -102,7 +77,6 @@ public class SudoKu3 extends Application {
 			grid = new GRID(grid.getBoard());
 			grid.getBorderPane().setCenter(grid.getTilePane());
 			grid.getBorderPane().setBottom(hb);
-
 			setStage2(grid.getBorderPane()).show();
 
 		});
@@ -112,7 +86,9 @@ public class SudoKu3 extends Application {
 		{
 
 			// When we use "clear" we will empty the board, i.e empty the textfields
-			grid = new GRID(EMPTY_GRID);
+			grid.clearBoard(grid.getBoard());
+
+			grid = new GRID(grid.getBoard());
 
 			grid.getBorderPane().setCenter(grid.getTilePane());
 			grid.getBorderPane().setBottom(hb);
@@ -147,7 +123,7 @@ public class SudoKu3 extends Application {
 	}
 
 	public static void main(String[] args) {
-		
+
 		// Mainmetoden anv�nds endast f�r att starta javaFX, d�refter har javaFX
 		// kontrollen.
 
