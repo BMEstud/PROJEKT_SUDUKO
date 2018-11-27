@@ -1,6 +1,7 @@
 
 import java.util.Map;
 
+
 import java.util.TreeMap;
 
 import javafx.event.EventHandler;
@@ -23,12 +24,9 @@ public class GRID {
 	final int NBR_ROW = 9;
 	final int NBR_COL = 9;
 	public static final int EMPTY = 0;
-	private int[][] GRID_TO_SOLVE;
-	public Map<String, String> map;
+	public int[][] GRID_TO_SOLVE;
 
 	public GRID(int[][] GRID_TO_SOLVE) {
-
-		this.map = new TreeMap<String, String>();
 
 		this.GRID_TO_SOLVE = GRID_TO_SOLVE;
 
@@ -54,7 +52,7 @@ public class GRID {
 			tilePane.setVgap(2);
 
 			int s = GRID_TO_SOLVE[r][c];
-			String str = Integer.toString(s);
+			String str = Integer.toString(s); // from int --> String
 			tf.setText(str);
 
 			if (s == 0) {
@@ -73,7 +71,6 @@ public class GRID {
 
 				// Formatera texten, siffrorna från början ska vara stora och svarta
 				tf.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-				tf.setEditable(false);
 			}
 
 			if (count < 4) {
@@ -127,7 +124,6 @@ public class GRID {
 
 	}
 
-
 	public BorderPane getBorderPane() {
 		return this.borderPane;
 	}
@@ -136,25 +132,22 @@ public class GRID {
 		return this.tilePane;
 	}
 
-	public Map<String, String> getMap() {
-		return map;
-	}
-
 	public int[][] getBoard() {
 
-		return GRID_TO_SOLVE;
+		return this.GRID_TO_SOLVE;
 	}
 
-	private int getNbr(int i, int j) {
-
-		return GRID_TO_SOLVE[i][j];
-
-	}
-
-	private void setNbr(int i, int j, int nbr) {
-
-		GRID_TO_SOLVE[i][j] = nbr;
-	}
+//
+//	private int getNbr(int i, int j) {
+//
+//		return GRID_TO_SOLVE[i][j];
+//
+//	}
+//
+//	private void setNbr(int i, int j, int nbr) {
+//
+//		GRID_TO_SOLVE[i][j] = nbr;
+//	}
 
 //Check if a number is in the given row 
 	private boolean isInRow(int row, int number) {
@@ -196,19 +189,6 @@ public class GRID {
 	public boolean solve(int i, int j) {
 		for (int row = 0; row < NBR_ROW; row++) {
 			for (int col = 0; col < NBR_COL; col++) {
-
-//				if (GRID_TO_SOLVE[row][col] != EMPTY) {
-//
-//					// if this number is ok
-//					if (isOk(i, j, getNbr(i, j))) {
-//						GRID_TO_SOLVE[row][col] = getNbr(i, j);
-//						solve(i + 1, j + 1);
-//
-//					} else {
-//						return false;
-//					}
-//
-//				}
 
 				// There is no number in the cell
 				if (GRID_TO_SOLVE[row][col] == EMPTY) {
