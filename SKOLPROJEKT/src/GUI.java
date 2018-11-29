@@ -6,10 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -18,9 +16,6 @@ public class GUI extends Application {
 	private int NBR_COL = 9;
 	private int NBR_ROW = 9;
 	final int SIZE = 50; // bestämmer rutstorleken, kan bara göras en gång.. Ty Final
-	public TextField tf;
-	public BorderPane borderPane;
-	public TilePane tilePane;
 	private Solver grid;
 	private Stage stage;
 

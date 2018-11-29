@@ -17,8 +17,8 @@ public class Solver {
 	private int count = 0;
 	final int NBR_ROW = 9;
 	final int NBR_COL = 9;
-	public static final int EMPTY = 0;
-	public int[][] GRID_TO_SOLVE;
+	private static final int EMPTY = 0;
+	private int[][] GRID_TO_SOLVE;
 
 	public Solver(int[][] GRID_TO_SOLVE) {
 
@@ -63,7 +63,6 @@ public class Solver {
 
 			if (!tf.getText().equals("")) {
 
-				// Formatera texten, siffrorna från början ska vara stora och svarta
 				tf.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 			}
 
@@ -118,6 +117,11 @@ public class Solver {
 
 	}
 
+	/**
+	 * The method resets the matrix by replacing all numbers by 0
+	 * 
+	 * @param int[][], the matrix consisted of 9*9 fields
+	 **/
 
 	public void clearBoard(int[][] GRID_TO_SOLVE) {
 
@@ -132,6 +136,18 @@ public class Solver {
 		}
 
 	}
+
+	/**
+	 * The method scans the tilePane for inputs (textFields) and replaces every ""
+	 * with zeros. It then fills the matrix GRID_TO_SOLVE with the values.
+	 * 
+	 * The method also calls the checkInput-method to check if the inputs are
+	 * satisfied by the input constraints, i.e integers between 1-9. If the method
+	 * finds any character not allowed, the user will get an information message
+	 * 
+	 * @param TilePane, the tilePane consisting of textFields
+	 * @return An alert message box
+	 */
 
 	public void readBoard(TilePane tilePane) {
 
@@ -152,10 +168,11 @@ public class Solver {
 
 			if (((TextField) node).getText().equals("")) {
 
-				// the cells that contains no number are set to 0
+				// the empty cells are set to 0
 				((TextField) node).setText("0");
 			}
 
+			// The matrix get filled up with values from the textfields
 			this.GRID_TO_SOLVE[row][col] = Integer.parseInt(((TextField) node).getText());
 
 			col++;
@@ -169,12 +186,21 @@ public class Solver {
 
 	}
 
+	/**
+	 * The method checks if the inputs are satisfied by the input constraints, i.e
+	 * integers between 1-9. If the method finds any character not allowed, the
+	 * method will return false, else true.
+	 * 
+	 * @param TilePane, the tilePane consisted of 9*9 textFields
+	 * @return true if the textfields only consists of integers between 1-9
+	 * @return false, if any non integers between 1-9 are detected
+	 */
 	public boolean checkInput(TilePane tilePane) {
 
 		for (Node node : getTilePane().getChildren()) {
 
-			if (((TextField) node).getText().matches("[A-Za-ö]") || !((TextField) node).getText().matches("\\d{0,1}")){
-					
+			if (((TextField) node).getText().matches("[A-Za-ö]") || !((TextField) node).getText().matches("\\d{0,1}")) {
+
 				return false;
 
 			}
@@ -185,6 +211,11 @@ public class Solver {
 
 	}
 
+	/**
+	 * The method seeks for the characters either, 0 or a-ö and replaces the
+	 * character by " "
+	 * 
+	 */
 	public void resetBoard() {
 
 		for (Node node : getTilePane().getChildren()) {
@@ -200,7 +231,15 @@ public class Solver {
 
 	}
 
-//Check if a number is in the given row 
+	/**
+	 * the method checks if a given number is in a specific row
+	 * 
+	 * @param row    Of type int which corresponds to the row number in which a
+	 *               specific number (second param) will be searched for
+	 * @param number Of type int. The number the method will seek for
+	 * @return true If the number can be fond
+	 * @return false If the number can not be found
+	 **/
 	private boolean isInRow(int row, int number) {
 		for (int i = 0; i < NBR_ROW; i++)
 			if (GRID_TO_SOLVE[row][i] == number)
@@ -209,7 +248,15 @@ public class Solver {
 		return false;
 	}
 
-	// Check if the number is in the given column
+	/**
+	 * the method checks if a given number is in a specific column
+	 * 
+	 * @param col    Of type int which corresponds to the row number in which a
+	 *               specific number (second param) will be searched for
+	 * @param number Of type int. The number the method will seek for
+	 * @return true If the number can be fond
+	 * @return false If the number can not be found
+	 **/
 	private boolean isInCol(int col, int number) {
 		for (int i = 0; i < NBR_COL; i++)
 			if (GRID_TO_SOLVE[i][col] == number)
@@ -218,7 +265,17 @@ public class Solver {
 		return false;
 	}
 
-	// Vi tittar om det finns ett nummer i boxen (det rosa)
+	/**
+	 * the method checks if a given number is in a box (3*3 field)
+	 * 
+	 * @param row    Of type int which corresponds to the row number in which a
+	 *               specific number will be searched for
+	 * @param col    Of type int which corresponds to the column in which a the num
+	 *               param will be searched for
+	 * @param number Of type int. The number the method will seek for
+	 * @return true If the number can be fond
+	 * @return false If the number can not be found
+	 **/
 	private boolean isInBox(int row, int col, int number) {
 		int r = row - row % 3;
 		int c = col - col % 3;
@@ -231,12 +288,30 @@ public class Solver {
 		return false;
 	}
 
-	// combined method to check if a number possible to a row,col position is ok
+	/**
+	 * the method checks if a given number is
+	 * 
+	 * @param row    Of type int which corresponds to the row number in which a
+	 *               specific number will be searched for
+	 * @param col    Of tyoe int which corrsponds to the column number in which the
+	 *               specifi number will be searched for
+	 * @param number Of type int. The number the method will seek for
+	 * @return true If the number can not be found in the given row, column or a box
+	 * @return false f the number can be found in the given row, column or a box
+	 **/
 	private boolean isOk(int row, int col, int number) {
 		return !isInRow(row, number) && !isInCol(col, number) && !isInBox(row, col, number);
 	}
 
-	// Solver-metod, Backtracking
+	/**
+	 * The method solves the suduko recurvisely with backtracking method
+	 * 
+	 * @param i Of type int which corresponds to the x coordinate where the method
+	 *          will begin
+	 * @param j Of type int which corrsponds to the y coordinate
+	 * @return true If the suduko can be solved
+	 * @return false If the suduko can not be solved
+	 **/
 	public boolean solve(int i, int j) {
 		for (int row = 0; row < NBR_ROW; row++) {
 			for (int col = 0; col < NBR_COL; col++) {
@@ -259,7 +334,6 @@ public class Solver {
 
 					return false; // we return false
 
-					// if there is a number in the cell
 				}
 
 			}
@@ -267,22 +341,33 @@ public class Solver {
 
 		return true; // sudoku solved
 	}
-	
+
+	/**
+	 * the method returns the bordepane
+	 *
+	 * @return borderpane
+	 **/
 	public BorderPane getBorderPane() {
 		return this.borderPane;
 	}
 
+	/**
+	 * the method returns the tilepane
+	 *
+	 * @return tilepane
+	 **/
 	public TilePane getTilePane() {
 		return this.tilePane;
 	}
 
+	/**
+	 * the method returns the matrix
+	 *
+	 * @return GRID_TO_SOLVE
+	 **/
 	public int[][] getBoard() {
 
 		return this.GRID_TO_SOLVE;
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }
