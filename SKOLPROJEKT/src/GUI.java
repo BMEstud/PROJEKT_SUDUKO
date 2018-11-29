@@ -51,8 +51,8 @@ public class GUI extends Application {
 			if (grid.checkInput(grid.getTilePane()) == false) {
 
 				// if we have a letter, the GRID_TO_SOLVE will not change
-				grid.readBoard(grid.getTilePane());
-				grid.resetBoard(); // we reset the board, any letters becomes a ""
+				grid.readTile(grid.getTilePane());
+				grid.resetTile(); // we reset the tilepane, any letters in the textfields becomes a ""
 				grid = new Solver(grid.getBoard());
 				grid.getBorderPane().setCenter(grid.getTilePane());
 				grid.getBorderPane().setBottom(hb);
@@ -61,12 +61,9 @@ public class GUI extends Application {
 
 			}
 
-			grid.readBoard(grid.getTilePane());
-			grid.resetBoard();
-			// we call the GRID-class with the new matrix, the matrix now corresponds to
-			// what values the user has entered
-			// in the textfields
-			// grid = new GRID(GRID_TO_SOLVE);
+			//
+			grid.readTile(grid.getTilePane());
+			grid.resetTile();
 
 			// When we use the solve method,the matrix EMPTY_GRID will change..
 			if (grid.solve(0, 0) == false) {
@@ -118,7 +115,7 @@ public class GUI extends Application {
 		stage.setTitle("Suduko");
 		stage.setScene(scene);
 
-		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
+		stage.setResizable(false);
 
 		return stage;
 	}
@@ -129,18 +126,16 @@ public class GUI extends Application {
 		stage.setTitle("Suduko");
 		stage.setScene(scene);
 
-		stage.setResizable(false);// för att inte kunna ändra storlek på brädet
+		stage.setResizable(false);//To not be able to edit the size of the suduko
 
 		return stage;
 	}
 
 	public static void main(String[] args) {
 
-		// Mainmetoden anv�nds endast f�r att starta javaFX, d�refter har javaFX
-		// kontrollen.
+		//The main method is only used to start the javaFx
 
-		Application.launch(args); // Det skapas automatiskt ett objekt av v�r BookReaderController och v�r metod
-									// start anropas p� objektet
+		Application.launch(args); 
 
 	}
 }

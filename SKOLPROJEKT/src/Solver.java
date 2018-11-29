@@ -132,7 +132,7 @@ public class Solver {
 	}
 
 	/**
-	 * The method resets the matrix by replacing all numbers by 0
+	 * The method resets the board, i.e matrix by replacing all numbers by 0
 	 * 
 	 * @param int[][], the matrix consisted of 9*9 fields
 	 **/
@@ -163,7 +163,7 @@ public class Solver {
 	 * @return An alert message box
 	 */
 
-	public void readBoard(TilePane tilePane) {
+	public void readTile(TilePane tilePane) {
 
 		int row = 0;
 		int col = 0;
@@ -229,10 +229,10 @@ public class Solver {
 
 	/**
 	 * The method seeks for the characters either, 0 or a-ö and replaces the
-	 * character by " "
+	 * character by " ". The method reset the tilepane, i.e the textfields
 	 * 
 	 */
-	public void resetBoard() {
+	public void resetTile() {
 
 		for (Node node : getTilePane().getChildren()) {
 
