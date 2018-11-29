@@ -186,7 +186,7 @@ public class GRID {
 
 		for (Node node : getTilePane().getChildren()) {
 
-			if (((TextField) node).getText().matches("[A-Za-z]") || !((TextField) node).getText().matches("\\d{0,1}")) {
+			if (((TextField) node).getText().matches("[A-Za-z]") || !((TextField) node).getText().matches("\\d{0,1}") || ((TextField) node).getText().equals("0")) {
 
 				return false;
 
