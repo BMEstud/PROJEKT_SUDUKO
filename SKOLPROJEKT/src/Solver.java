@@ -20,20 +20,28 @@ public class Solver {
 	private static final int EMPTY = 0;
 	private int[][] GRID_TO_SOLVE;
 
+	/**
+	 * The method is setting up the GUI, formatting the tilepane with textfields,
+	 * and inputs the values from the matrix (param)
+	 *
+	 * @param GRID_TO_SOLVE, A matrix which corresponds to the text in the textfield
+	 *        which the users sees
+	 **/
 	public Solver(int[][] GRID_TO_SOLVE) {
 
 		this.GRID_TO_SOLVE = GRID_TO_SOLVE;
 
-		// Behållarkomponenter, BorderPane är själva "grunden"
+		// Container-elements
 		this.borderPane = new BorderPane();
 		this.tilePane = new TilePane();
 
 		int c = 0;
 		int r = 0;
 
-		// 9:0rna bestämmer hur många rutor totalt i x-y led, dvs 9*9
-		for (int i = 0; i < NBR_COL * NBR_ROW; i++) { // lägger till en ruta, totalt 81 st, 9*9
+		for (int i = 0; i < NBR_COL * NBR_ROW; i++) {
 
+			// Creates 9*9 textfield object and sets their size to SIZE*SIZE. The textfields
+			// are added to the tilePane
 			TextField tf = new TextField();
 			tf.setPrefSize(SIZE, SIZE);
 			tilePane.getChildren().addAll(tf);
@@ -41,15 +49,20 @@ public class Solver {
 
 			count++;
 
+			// Setting some space between every textfield boxs
 			tilePane.setPadding(new Insets(1, 1, 1, 1));
 			tilePane.setHgap(2);
 			tilePane.setVgap(2);
 
+			// takes a number from the matrix, convert it to a String and add the string to
+			// the textfield object
 			int s = GRID_TO_SOLVE[r][c];
 			String str = Integer.toString(s); // from int --> String
-
 			tf.setText(str);
 
+			// If the matrix consists of zeroes (example empty matrix) we replace the zeroes
+			// with nothing, so
+			// the user dont see any number in the suduko grid
 			if (s == 0) {
 				tf.setText("");
 			}
@@ -66,6 +79,7 @@ public class Solver {
 				tf.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 			}
 
+			// These if-statements are creating the pink boxes..
 			if (count < 4) {
 				tf.setStyle("-fx-background-color:  pink;");
 			}
@@ -197,8 +211,10 @@ public class Solver {
 	 */
 	public boolean checkInput(TilePane tilePane) {
 
+		//Loop through all textfields in the tilepane
 		for (Node node : getTilePane().getChildren()) {
 
+			//If the textfields conatins a letter or a number with more then 1 digit,return false
 			if (((TextField) node).getText().matches("[A-Za-ö]") || !((TextField) node).getText().matches("\\d{0,1}")) {
 
 				return false;
