@@ -23,12 +23,13 @@ public class SudoKu3 extends Application {
 	public TilePane tilePane;
 	private GRID grid;
 	private Stage stage;
+	private Scene scene;
 
 	private int[][] GRID_TO_SOLVE = { { 7, 0, 0, 1, 0, 0, 0, 0, 5 }, { 0, 0, 5, 0, 9, 0, 2, 0, 1 },
 			{ 8, 0, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 8, 0, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 2, 6, 0, 0, 9 }, { 2, 0, 0, 3, 0, 0, 0, 0, 6 }, { 0, 0, 0, 2, 0, 0, 9, 0, 0 },
 			{ 0, 0, 1, 9, 0, 4, 5, 7, 0 }, };
-	
+
 	private int[][] EMPTY_GRID = { { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -38,6 +39,7 @@ public class SudoKu3 extends Application {
 	public void start(Stage stage) throws Exception {
 
 		this.stage = stage;
+		
 
 		grid = new GRID(GRID_TO_SOLVE);
 
@@ -51,10 +53,25 @@ public class SudoKu3 extends Application {
 		grid.getBorderPane().setBottom(hb);
 
 		solve.setOnAction(event -> {
+		
+			
+			if(grid.checkInput(grid.getTilePane()) == false) {
+				
+				
+				//if we have a letter, the GRID_TO_SOLVE will not change
+				grid.readBoard(grid.getTilePane());
+				grid.resetBoard(); //we reset the board, any letters becomes a ""
+				grid = new GRID(grid.getBoard());
+				grid.getBorderPane().setCenter(grid.getTilePane());
+				grid.getBorderPane().setBottom(hb);
+				setStage2(grid.getBorderPane()).show();
+				return;
 
+			}
+			
+			
 			grid.readBoard(grid.getTilePane());
 			grid.resetBoard();
-
 			// we call the GRID-class with the new matrix, the matrix now corresponds to
 			// what values the user has entered
 			// in the textfields
@@ -69,15 +86,20 @@ public class SudoKu3 extends Application {
 				alert.setContentText("Det saknas lösning");
 				alert.showAndWait();
 				grid = new GRID(grid.getBoard());
+				grid.getBorderPane().setCenter(grid.getTilePane());
+				grid.getBorderPane().setBottom(hb);
 				setStage2(grid.getBorderPane()).show();
 
-			}
+			}else {
+			
 
 //			//we create a new object with an updated matrix, since this matrix will be used in the stage
 			grid = new GRID(grid.getBoard());
 			grid.getBorderPane().setCenter(grid.getTilePane());
 			grid.getBorderPane().setBottom(hb);
 			setStage2(grid.getBorderPane()).show();
+			
+			}
 
 		});
 

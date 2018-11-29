@@ -1,7 +1,9 @@
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
@@ -46,6 +48,7 @@ public class GRID {
 
 			int s = GRID_TO_SOLVE[r][c];
 			String str = Integer.toString(s); // from int --> String
+
 			tf.setText(str);
 
 			if (s == 0) {
@@ -58,7 +61,7 @@ public class GRID {
 				c = 0;
 				r++;
 			}
-			
+
 			if (!tf.getText().equals("")) {
 
 				// Formatera texten, siffrorna från början ska vara stora och svarta
@@ -144,12 +147,21 @@ public class GRID {
 	}
 
 	public void readBoard(TilePane tilePane) {
-		
 
 		int row = 0;
 		int col = 0;
 
 		for (Node node : getTilePane().getChildren()) {
+
+			if (checkInput(getTilePane()) != true) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Endast siffror");
+				alert.setHeaderText(null);
+				alert.setContentText("Endast siffror mellan 1-9 tillåtna");
+				alert.showAndWait();
+				return;
+
+			}
 
 			if (((TextField) node).getText().equals("")) {
 
@@ -170,12 +182,27 @@ public class GRID {
 
 	}
 
-	public void resetBoard() {
-		
+	public boolean checkInput(TilePane tilePane) {
 
 		for (Node node : getTilePane().getChildren()) {
 
-			if (((TextField) node).getText().equals("0")) {
+			if (((TextField) node).getText().matches("[A-Za-z]") || !((TextField) node).getText().matches("\\d{0,1}")) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
+
+	}
+
+	public void resetBoard() {
+
+		for (Node node : getTilePane().getChildren()) {
+
+			if (((TextField) node).getText().equals("0") || ((TextField) node).getText().matches("[A-Za-z]")) {
 
 				// the cells that contains no number are set to 0
 				((TextField) node).setText("");
@@ -187,16 +214,17 @@ public class GRID {
 	}
 
 //
-//	private int getNbr(int i, int j) {
+	private int getNbr(int i, int j) {
+
+		return GRID_TO_SOLVE[i][j];
+
+	}
+
 //
-//		return GRID_TO_SOLVE[i][j];
-//
-//	}
-//
-//	private void setNbr(int i, int j, int nbr) {
-//
-//		GRID_TO_SOLVE[i][j] = nbr;
-//	}
+	private void setNbr(int i, int j, int nbr) {
+
+		GRID_TO_SOLVE[i][j] = nbr;
+	}
 
 //Check if a number is in the given row 
 	private boolean isInRow(int row, int number) {
