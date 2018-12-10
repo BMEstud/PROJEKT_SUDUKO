@@ -256,6 +256,8 @@ public class Solver {
 	 * @return true If the number can be fond
 	 * @return false If the number can not be found
 	 **/
+	
+	//både rad och col som parametrar.. Om i och j har samma värde så tittar . när i är lika med col ska vi inte returnera col.
 	private boolean isInRow(int row, int number) {
 		for (int i = 0; i < NBR_ROW; i++)
 			if (GRID_TO_SOLVE[row][i] == number)
@@ -329,33 +331,54 @@ public class Solver {
 	 * @return false If the suduko can not be solved
 	 **/
 	public boolean solve(int i, int j) {
-		for (int row = 0; row < NBR_ROW; row++) {
-			for (int col = 0; col < NBR_COL; col++) {
-
+		//for (int row = 0; row < NBR_ROW; row++) {    // Ska inte behövas
+			//for (int col = 0; col < NBR_COL; col++) {
+				
+				if(j == 9) // justering, radbytet
+				{
+					j=0;
+					i++;
+				}
+				
+				if(i == 9) {
+					
+					return true;
+					
+				}
+				
 				// There is no number in the cell
-				if (GRID_TO_SOLVE[row][col] == EMPTY) {
+				if (GRID_TO_SOLVE[i][j] == EMPTY) {
 					// we try possible numbers
 					for (int number = 1; number <= 9; number++) {
-						if (isOk(row, col, number)) {
+						if (isOk(i, j, number)) {
 							// number ok. it respects sudoku constraints, we fill the cell with a number
-							GRID_TO_SOLVE[row][col] = number;
+							GRID_TO_SOLVE[i][j] = number;
 
-							if (solve(i, j)) { // we start backtracking recursively
+							if (solve(i, j+1)) { // we start backtracking recursively
 								return true;
 							} else { // if not a solution, we empty the cell and we continue
-								GRID_TO_SOLVE[row][col] = EMPTY;
+								GRID_TO_SOLVE[i][j] = EMPTY;
 							}
 						}
 					}
 
 					return false; // we return false
 
+				}else {
+					
+					if(isOk(i, j, GRID_TO_SOLVE[i][j])) {
+						
+						return solve(i,j+1);
+						
+					}
+					return false;
+					
+					
 				}
 
-			}
-		}
+		//	}
+		//}
 
-		return true; // sudoku solved
 	}
 
 	/**
